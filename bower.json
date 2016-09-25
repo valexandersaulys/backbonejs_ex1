@@ -1,0 +1,22 @@
+{
+  "name": "todo_ex1",
+  "authors": [
+    "Vincent Alexander Saulys <valexandersaulys@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone-localstorage": "^0.3.2",
+    "backbone": "^1.3.3",
+    "jquery": "^3.1.1"
+  }
+}
