@@ -9,12 +9,14 @@ var app = app || {}   // what is this for?
  */
 
 var TodoList = Backbone.Collection.extend({
+//app.Todos = Backbone.Collection.extend({
 
     // Reference to this collection's model
     model: app.Todo,
 
     // Implement LocalStorage
     localStorage: new Backbone.LocalStorage('todos-backbone'),
+    //localStorage: true,  // This was wrong in the documentation
 
     // Filter down the list for those that are finished
     completed: function() {
