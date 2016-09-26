@@ -11,7 +11,8 @@ var app = app || {}   // what is this for?
 var TodoList = Backbone.Collection.extend({
 //app.Todos = Backbone.Collection.extend({
 
-    // Reference to this collection's model
+    // model type used by collection.create() to instantiate a new model in
+    // this collection
     model: app.Todo,
 
     // Implement LocalStorage

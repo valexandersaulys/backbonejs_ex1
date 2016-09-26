@@ -40,8 +40,10 @@ app.AppView = Backbone.View.extend({
         // We add listener events
         this.listenTo(app.Todos, 'add', this.addOne);
         this.listenTo(app.Todos, 'reset', this.addAll);
+
         this.listenTo(app.Todos, 'change:completed', this.filterOne);
-        this.listenTo(app.Todos, 'filter', this.filterAll);
+        this.listenTo(app.Todos, 'filter', this.filterAll); //These two are for binding for routes
+
         this.listenTo(app.Todos, 'all', this.render);
 
         app.Todos.fetch();
@@ -89,13 +91,15 @@ app.AppView = Backbone.View.extend({
         app.Todos.each(this.addOne, this);
     },
 
+    // * * * * * * * These get called if the view is .trigger('filter'), which
+    // it is in the router.js file
     filterOne: function (todo) {
         todo.trigger('visisble');
     },
-
     filterAll: function () {
         app.Todos.each(this.filterOne, this);
     },
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 
     // Gets attributes binded to DOM elements, which were declared in initialize()
     newAttributes: function() {
@@ -108,7 +112,7 @@ app.AppView = Backbone.View.extend({
 
     // the `event` is the keypress. This function was bound to that in events()
     createOnEnter: function( event ) {
-        if ( even.which !== ENTER_KEY || !this.$input.val().trim() ) {
+        if ( event.which !== ENTER_KEY || !this.$input.val().trim() ) {
             return;
         }
 

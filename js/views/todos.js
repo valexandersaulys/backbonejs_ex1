@@ -7,7 +7,9 @@ app.TodoView = Backbone.View.extend({
     tagName: 'li',
     template: _.template( $('#item-template').html() ),
     events: {
+        'click .toggle': 'toggleCompleted',
         'dblclick label': 'edit',
+        'click .destroy': 'clear',
         'keypress .edit': 'updateOnEnter',
         'blur .edit': 'close'
     },
@@ -15,17 +17,35 @@ app.TodoView = Backbone.View.extend({
         // this.listenTo(object, 'event_name', function to call)
         // 'event_name', if in quotes, calls some default that backbone has listed
         this.listenTo(this.model, 'change', this.render);
+        this.listenTo(this.model, 'destroy', this.remove);
+        this.listenTo(this.model, 'visible', this.toggleVisible);
     },
     render: function() {
         // we popular the template with the attributes of the model for this
         // individual view. Then we set the binding element to show this html
         this.$el.html( this.template( this.model.attributes ) );
 
+        this.$el.toggleClass( 'completed', this.model.get('completed') );
+        this.toggleVisible();
+        
         // bind the DOM element
         this.$input = this.$('.edit');
 
         // Return the object
         return this;
+    },
+    toggleVisible: function () {
+        this.$el.toggleClass( 'hidden', this.isHidden() );
+    },
+    isHidden: function() {
+        var isCompleted = this.model.get('completed');
+        return (
+            (!isCompleted && app.TodoFilter === 'completed')
+                || (isCompleted && app.TodoFilter === 'active')
+        );
+    },
+    togglecompleted: function() {
+        this.model.toggle()
     },
     edit: function() {
         // The binding element gets a class of 'editing' for editing mode
@@ -52,5 +72,8 @@ app.TodoView = Backbone.View.extend({
         if ( e.which === ENTER_KEY ) {
             this.close();
         }
+    },
+    clear: function() {
+        this.model.destroy();
     }
 });
